@@ -15,6 +15,16 @@ class JsonController extends Controller
     public function index()
     {
 
+
+
+        // for ($i = 0; $i < 10; $i++) {
+        //     $array[] = $i;
+        // }
+
+        // return [
+        //     $array = $array
+        // ];
+
         $year = date('Y');
 
         return [
