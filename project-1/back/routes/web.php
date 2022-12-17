@@ -19,6 +19,6 @@ Route::get('/', function () {
 
 Route::get('/toto', function () {
     return [
-        "toto" => "Youpie c'est mercredi",
+        "toto" => "Youpi",
     ];
 });

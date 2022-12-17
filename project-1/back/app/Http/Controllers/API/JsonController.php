@@ -17,19 +17,21 @@ class JsonController extends Controller
 
 
 
-        // for ($i = 0; $i < 10; $i++) {
-        //     $array[] = $i;
-        // }
-
-        // return [
-        //     $array = $array
-        // ];
-
-        $year = date('Y');
+        for ($i = 0; $i < 10; $i++) {
+            $j =0;
+            $array[$j] = $i;
+            $j++;
+        }
 
         return [
-            "Year" => $year,
+             $array =>$array
         ];
+
+        // $year = date('Y');
+
+        // return [
+        //     "Year" => $year,
+        // ];
     }
 
     /**
