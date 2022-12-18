@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Task;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,4 +23,13 @@ Route::get('/toto', function () {
     return [
         "toto" => "Youpi",
     ];
+});
+
+Route::post('/newtask', function (Request $request) {
+
+    $task = new Task();
+    $task->title = $request->title;
+    $task->description = $request->description;
+    $task->save();
+    return $task;
 });
