@@ -61,8 +61,10 @@ class Application
   
   renderTask(task) {
     const element = document.createElement('div');
+    element.classList.add('col');
     element.innerHTML = `
-      <div class="card col-3" style="width: 18rem;">
+
+      <div class="card" style="width: 18rem;">
         <img src="https://picsum.photos/seed/picsum/200/100" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">${task.title}</h5>
