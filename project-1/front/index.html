@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="./assets/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="application">
+        <h1>Tasks</h1>
+
+        <section class="form-container">
+            <form id="new-task">
+                <fieldset>
+                    <label for="new-task-name" class="form-label">Nouvelle tâche</label>
+                    <input class="form-control" id="new-task-name" placeholder="Nouvelle tâche">
+                </fieldset>
+                <fieldset>
+                    <label for="new-task-description" class="form-label">Description</label>
+                    <textarea class="form-control" id="new-task-description" rows="3"></textarea>
+                </fieldset>
+                <fieldset>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </fieldset>
+            </form>
+        </section>
+        <main class="col"></main>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script src="./assets/Application.js"></script>
+
+    <script>
+        const application = new Application();
+        application.loadTasks();
+    </script>
+</body>
+</html>
