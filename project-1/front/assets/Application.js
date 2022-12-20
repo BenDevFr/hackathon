@@ -15,7 +15,7 @@ class Application
     ;
     console.log(tasks)
 
-    tasks.forEach(task => {this.renderTask(task)})
+    tasks.data.forEach(task => {this.renderTask(task)})
   }
 
   initializeForm() {
