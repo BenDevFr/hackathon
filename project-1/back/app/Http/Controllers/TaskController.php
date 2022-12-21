@@ -59,19 +59,36 @@ class TaskController extends Controller
     {
         $selectedTask = Task::find($task);
 
-        if (!$selectedTask) {
+        // if (!$selectedTask) {
+        //     return response()->json(
+        //         [
+        //             'message' => '404 This task does not exist',
+        //             'data' => []
+        //             //don't work ???
+        //         ]
+        //     );
+        // }
+        // return response()->json(
+        //     [
+        //         'message' => '200 Ok',
+        //         'data' =>  $selectedTask
+        //     ]
+        // );
+
+        if ($selectedTask) {
             return response()->json(
                 [
-                    'message' => '404 This task does not exist',
-                    'data' => 'Null'
-                    //don't work ???
+                    'message' => '200 Ok',
+                    'data' =>  $selectedTask
                 ]
+
             );
         }
         return response()->json(
             [
-                'message' => '200 Ok',
-                'data' =>  $selectedTask
+                'message' => '404 This task does not exist',
+                'data' => []
+                //! trow a web page,not a Json
             ]
         );
     }
@@ -119,13 +136,13 @@ class TaskController extends Controller
             return response()->json(
                 [
                     'message' => 'Task n°' . $task->id . ' deleted',
-                    'data' => 'Null'
+                    'data' => []
                 ]
             );
         }
         return response()->json([
             'message' => '404 This task does not exist',
-            'data' => 'Null'
+            'data' => []
 
         ]);
     }
