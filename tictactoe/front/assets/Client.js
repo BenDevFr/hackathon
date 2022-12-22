@@ -30,7 +30,7 @@ class Client
     const response = JSON.parse(event.data);
     const messageType = response.type;
 
-    if(messageType === 'connection') {
+    if(messageType === 'connection-confirmation') {
       console.log('%c Connected with ID : ' + response.data.id, 'color: #f00; font-size: 1rem');
       this.id = response.data.id;
     }

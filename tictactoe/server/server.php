@@ -23,14 +23,10 @@ class TestServer implements MessageComponentInterface {
         $this->clients->attach($sender);
         echo "New connection! ({$sender->resourceId}).\n";
 
-        // foreach ($this->clients as $client) { // BROADCAST
-        //     if($conn === $client) {
-        //         $this->send($client, 'connection', [
-        //             'id' => $client->resourceId
-        //         ]);
-        //     }
-        // }
         $this->broadcast('connection',['id'=>$sender->resourceId]);
+        $this->send($sender, 'connection-confirmation', [
+            'id' => $sender->resourceId
+        ]);
     }
 
     public function broadcast($messageType, $data)

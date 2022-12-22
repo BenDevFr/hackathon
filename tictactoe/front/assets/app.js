@@ -58,6 +58,11 @@ class TicTacToe {
 
       const cell = document.querySelector(`div[data-x="${x}"][data-y="${y}"]`);
 
+      console.log('%capp.js :: 61 =============================', 'color: #f00; font-size: 1rem');
+      console.log(this.client.id);
+      console.log(playerId);
+
+
       if(this.client.id === playerId ) {
         cell.classList.add('player-0');
         this.canPlay = false;
@@ -141,6 +146,6 @@ class TicTacToe {
 }
 const target = document.getElementById('board');
 console.log(target);
-const game = new TicTacToe(target, 3, 'ws://jlb.ninja:8888');
+const game = new TicTacToe(target, 3, 'ws://localhost:8888');
 
 game.render();
