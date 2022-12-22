@@ -43,12 +43,15 @@ class TestServer implements MessageComponentInterface {
         $message = json_decode($msg);
         echo sprintf("New message from '%s': %s\n\n\n", $sender->resourceId, $msg);
 
-        if($message->type === 'turn') {
-            $x = $message->data->x;
-            $y = $message->data->y;
-            $this->grid[$y][$x] = $sender->resourceId;
-            print_r($this->grid);
-            echo "\n";
+            if($message->type === 'turn') {
+                $x = $message->data->x;
+                $y = $message->data->y;
+                if ($this->grid[$y][$x] == null){
+                $this->grid[$y][$x] = $sender->resourceId;
+                print_r($this->grid);
+                echo "\n";
+            }
+            return;
         }
 
         // send clicked cell
