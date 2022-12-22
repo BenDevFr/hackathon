@@ -6,13 +6,53 @@ class TicTacToe {
     rowsColsNumber;
     elementTag = 'div';
     grid = null;
+    playerIndex = 0;
+    canPlay = true;
+
+    client = null;
 
     constructor(target, rowsColsNumber) {
         this.target = target;
         this.rowsColsNumber = rowsColsNumber;
         this.setGrid(this.rowsColsNumber);
-        console.log(this.target);
+        this.client = new Client('ws://localhost:8888');
+        this.client.connect();
+
+        this.client.eventListeners['turn'] = (event) => {
+          this.handleTurn(event)
+        }
+        this.client.eventListeners['win'] = (event) => {
+          this.handleWin(event)
+        }
+
+        /*
+        this.client.addEventListener('turn', (event) => {
+          this.handleTurn(event)
+        })
+        */
     }
+
+    handleWin(response) {
+      if(response.data.winner == this.client.id) {
+        alert('You win');
+      }
+      else {
+        alert('You lose');
+      }
+
+      this.target.innerHTML = '';
+      this.render();
+    }
+
+    handleTurn(response) {
+      const x = response.data.x;
+      const y = response.data.y;
+
+      const cell = document.querySelector(`div[data-x="${x}"][data-y="${y}"]`);
+      cell.classList.add('player-1');
+      this.canPlay = true;
+    }
+
 
 
     setGrid(rowsColsNumber) {
@@ -27,16 +67,48 @@ class TicTacToe {
     }
 
     render() {
-        this.grid.forEach(row => {
-            row.forEach(cell => {
+        this.grid.forEach((row, rowKey) => {
+            row.forEach((cell, cellKey) => {
                 const newCell = document.createElement(this.elementTag);
                 newCell.classList.add('box');
+
+                newCell.dataset.x = cellKey;
+                newCell.dataset.y = rowKey;
+
                 this.target.appendChild(newCell);
                 newCell.addEventListener('click', (evt) => {
-                    console.log('click');
+                  this.handleClick(evt);
                 });
             })
         });
+    }
+
+    handleClick(evt) {
+      if(!this.canPlay) {
+        return;
+      }
+
+      const cell = evt.currentTarget
+      const x = cell.dataset.x;
+      const y = cell.dataset.y;
+      console.log('click : ' + x + ',' + y);
+
+      if(this.playerIndex === 0 ) {
+        cell.classList.add('player-0');
+      }
+      else {
+        cell.classList.add('player-1');
+      }
+
+      this.client.sendMessage({
+        type: 'turn',
+        data: {
+          x: x,
+          y: y,
+        }
+      });
+
+      this.canPlay = false;
     }
 }
 const target = document.getElementById('board');

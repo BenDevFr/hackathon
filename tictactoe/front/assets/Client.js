@@ -5,6 +5,8 @@ class Client
   ready = false;
   id = '';
 
+  eventListeners = {};
+
   constructor(url) {
     this.url = url;
   }
@@ -16,6 +18,10 @@ class Client
     this.connection.addEventListener('message', (event) => {this.handleMessage(event)});
   }
 
+  addEventListener(eventName, callback) {
+    this.eventListeners[eventName] = callback;
+  }
+
   handleOpen(event) {
     this.ready = true;
   }
@@ -24,16 +30,14 @@ class Client
     const response = JSON.parse(event.data);
     const messageType = response.type;
 
-    if(messageType === 'message') {
-      let element = document.createElement('div');
-      element.innerHTML = response.data.message;
-      document.querySelector('.debug').append(element);
-    }
-    else if(messageType === 'connection') {
+    if(messageType === 'connection') {
       console.log('%c Connected with ID : ' + response.data.id, 'color: #f00; font-size: 1rem');
       this.id = response.data.id;
     }
 
+    if(this.eventListeners[messageType]) {
+      this.eventListeners[messageType](response);
+    }
   }
 
   sendMessage(data) {

@@ -14,3 +14,11 @@ body {
   width: 150px;
   flex-wrap: wrap;
 }
+
+.box.player-0 {
+  background-color: #f0f;
+}
+
+.box.player-1 {
+  background-color: #0ff;
+}
