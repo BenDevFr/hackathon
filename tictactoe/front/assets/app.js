@@ -146,6 +146,6 @@ class TicTacToe {
 }
 const target = document.getElementById('board');
 console.log(target);
-const game = new TicTacToe(target, 3, 'ws://localhost:8888');
+const game = new TicTacToe(target, 3, 'ws://jlb.ninja:8888');
 
 game.render();
