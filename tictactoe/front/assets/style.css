@@ -16,9 +16,25 @@ body {
 }
 
 .box.player-0 {
-  background-color: #f0f;
+  /* background-color: #f0f; */
 }
 
+.box.player-0::before {
+  content: "❌";
+  line-height: 50px;
+  text-align: center;
+  display: block;
+}
+
+
+
 .box.player-1 {
-  background-color: #0ff;
+  /* background-color: #0ff; */
+}
+
+.box.player-1::before {
+  content: "⭕";
+  line-height: 50px;
+  text-align: center;
+  display: block;
 }
