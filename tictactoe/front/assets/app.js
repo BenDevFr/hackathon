@@ -8,7 +8,7 @@ class TicTacToe {
     grid = null;
     playerIndex = 0;
     canPlay = true;
-
+    logsTarget = document.getElementById('logs');
     client = null;
 
     constructor(target, rowsColsNumber, server = 'ws://localhost:8888') {
@@ -27,6 +27,10 @@ class TicTacToe {
         this.client.eventListeners['cheat'] = (event) => {
           this.handleCheat(event)
         }
+
+        this.client.eventListeners['connection'] = (event) => {
+            this.handleConnection(event)
+          }
 
         /*
         this.client.addEventListener('turn', (event) => {
@@ -62,6 +66,12 @@ class TicTacToe {
         cell.classList.add('player-1');
         this.canPlay = true;
       }
+
+      const log = document.createElement('p');
+      log.innerHTML = "Player " + playerId + " click on the cell : " + x + "," +y;
+      this.logsTarget.appendChild(log);
+
+
     }
 
     handleCheat(response) {
@@ -72,6 +82,12 @@ class TicTacToe {
       else {
         alert('Votre adversaire est un petit rigolo et a essayé de tricher');
       }
+    }
+
+    handleConnection(response){
+        const log = document.createElement('p');
+        log.innerHTML = "Player " + this.client.id + " connected";
+        this.logsTarget.appendChild(log);
     }
 
     setGrid(rowsColsNumber) {

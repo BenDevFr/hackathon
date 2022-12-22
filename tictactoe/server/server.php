@@ -19,17 +19,18 @@ class TestServer implements MessageComponentInterface {
         $this->clients = new \SplObjectStorage;
     }
 
-    public function onOpen(ConnectionInterface $conn) {
-        $this->clients->attach($conn);
-        echo "New connection! ({$conn->resourceId}).\n";
+    public function onOpen(ConnectionInterface $sender) {
+        $this->clients->attach($sender);
+        echo "New connection! ({$sender->resourceId}).\n";
 
-        foreach ($this->clients as $client) { // BROADCAST
-            if($conn === $client) {
-                $this->send($client, 'connection', [
-                    'id' => $client->resourceId
-                ]);
-            }
-        }
+        // foreach ($this->clients as $client) { // BROADCAST
+        //     if($conn === $client) {
+        //         $this->send($client, 'connection', [
+        //             'id' => $client->resourceId
+        //         ]);
+        //     }
+        // }
+        $this->broadcast('connection',['id'=>$sender->resourceId]);
     }
 
     public function broadcast($messageType, $data)
