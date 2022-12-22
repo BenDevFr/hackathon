@@ -24,6 +24,9 @@ class TicTacToe {
         this.client.eventListeners['win'] = (event) => {
           this.handleWin(event)
         }
+        this.client.eventListeners['cheat'] = (event) => {
+          this.handleCheat(event)
+        }
 
         /*
         this.client.addEventListener('turn', (event) => {
@@ -47,13 +50,29 @@ class TicTacToe {
     handleTurn(response) {
       const x = response.data.x;
       const y = response.data.y;
+      const playerId = response.data.id
 
       const cell = document.querySelector(`div[data-x="${x}"][data-y="${y}"]`);
-      cell.classList.add('player-1');
-      this.canPlay = true;
+
+      if(this.client.id === playerId ) {
+        cell.classList.add('player-0');
+        this.canPlay = false;
+      }
+      else {
+        cell.classList.add('player-1');
+        this.canPlay = true;
+      }
     }
 
-
+    handleCheat(response) {
+      if(response.data.id == this.client.id) {
+        alert('Il ne faut pas tricher petit rigolo');
+        this.canPlay = true;
+      }
+      else {
+        alert('Votre adversaire est un petit rigolo et a essayé de tricher');
+      }
+    }
 
     setGrid(rowsColsNumber) {
         this.grid = [
@@ -93,13 +112,6 @@ class TicTacToe {
       const y = cell.dataset.y;
       console.log('click : ' + x + ',' + y);
 
-      if(this.playerIndex === 0 ) {
-        cell.classList.add('player-0');
-      }
-      else {
-        cell.classList.add('player-1');
-      }
-
       this.client.sendMessage({
         type: 'turn',
         data: {
@@ -113,6 +125,6 @@ class TicTacToe {
 }
 const target = document.getElementById('board');
 console.log(target);
-const game = new TicTacToe(target, 3, 'ws://jlb.ninja:8888');
+const game = new TicTacToe(target, 3, 'ws://localhost:8888');
 
 game.render();

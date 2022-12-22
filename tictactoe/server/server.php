@@ -32,6 +32,14 @@ class TestServer implements MessageComponentInterface {
         }
     }
 
+    public function broadcast($messageType, $data)
+    {
+        foreach ($this->clients as $client) {
+            // send message to other clients than "sender"
+            $this->send($client, $messageType, $data);
+        }
+    }
+
     public function send($client, $messageType, $data) {
         $client->send(json_encode([
             'type' => $messageType,
@@ -43,27 +51,29 @@ class TestServer implements MessageComponentInterface {
         $message = json_decode($msg);
         echo sprintf("New message from '%s': %s\n\n\n", $sender->resourceId, $msg);
 
-            if($message->type === 'turn') {
-                $x = $message->data->x;
-                $y = $message->data->y;
-                if ($this->grid[$y][$x] == null){
+        if($message->type === 'turn') {
+            $x = $message->data->x;
+            $y = $message->data->y;
+            if ($this->grid[$y][$x] == null) {
                 $this->grid[$y][$x] = $sender->resourceId;
                 print_r($this->grid);
                 echo "\n";
+                $this->broadcast('turn', [
+                    'x' => $message->data->x,
+                    'y' => $message->data->y,
+                    'id' => $sender->resourceId,
+                ]);
             }
-            return;
-        }
-
-        // send clicked cell
-        foreach ($this->clients as $client) {
-            // send message to other clients than "sender"
-            if ($sender !== $client) {
-                $this->send($client, $message->type, $message->data);
+            else {
+                $this->broadcast('cheat', [
+                    'x' => $message->data->x,
+                    'y' => $message->data->y,
+                    'id' => $sender->resourceId,
+                ]);
             }
         }
 
         // check if winner
-
         // check lines
         $winner = null;
         foreach ($this->grid as $row) {
@@ -91,11 +101,9 @@ class TestServer implements MessageComponentInterface {
         }
 
         if($winner) {
-            foreach ($this->clients as $client) {
-                $this->send($client, 'win', [
-                    'winner' => $winner
-                ]);
-            }
+            $this->broadcast('win', [
+                'winner' => $winner
+            ]);
 
             $this->grid = [
                 [null, null, null],
