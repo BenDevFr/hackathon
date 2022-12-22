@@ -11,11 +11,11 @@ class TicTacToe {
 
     client = null;
 
-    constructor(target, rowsColsNumber) {
+    constructor(target, rowsColsNumber, server = 'ws://localhost:8888') {
         this.target = target;
         this.rowsColsNumber = rowsColsNumber;
         this.setGrid(this.rowsColsNumber);
-        this.client = new Client('ws://localhost:8888');
+        this.client = new Client(server);
         this.client.connect();
 
         this.client.eventListeners['turn'] = (event) => {
@@ -113,6 +113,6 @@ class TicTacToe {
 }
 const target = document.getElementById('board');
 console.log(target);
-const game = new TicTacToe(target, 3);
+const game = new TicTacToe(target, 3, 'ws://jlb.ninja:8888');
 
 game.render();
